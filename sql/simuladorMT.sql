@@ -11,6 +11,7 @@ BEGIN
     cinta := programa || '$';
     caracter_actual := SUBSTRING(cinta FROM 1 FOR 1);
     estado_actual := 'q0';
+    posicion_cabezal := 1;
 
     WHILE estado_actual != 'qf' LOOP
         SELECT * INTO movimiento FROM programa WHERE estado_ori = estado_actual AND caracter_ori = caracter_actual;
@@ -20,6 +21,8 @@ BEGIN
         END IF;
 
         caracter_nuevo := movimiento.caracter_nue;
+
+        cinta := OVERLAY(cinta PLACING caracter_nuevo FROM posicion_cabezal FOR 1);
 
         IF movimiento.desplazamiento = 'L' THEN
             posicion_cabezal := posicion_cabezal - 1;
