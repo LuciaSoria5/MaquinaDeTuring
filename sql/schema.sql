@@ -9,9 +9,9 @@ CREATE TABLE alfabeto (
 CREATE TABLE programa (
     estado_ori VARCHAR(50) NOT NULL,
     caracter_ori CHAR(1) NOT NULL,
-    estado_nue VARCHAR(50) NOT NULL,
-    caracter_nue CHAR(1) NOT NULL,
-    desplazamiento CHAR(1) NOT NULL CHECK (desplazamiento IN ('L', 'R')),
+    estado_nue VARCHAR(50),
+    caracter_nue CHAR(1),
+    desplazamiento CHAR(1) CHECK (desplazamiento IN ('L', 'R')),
     PRIMARY KEY (estado_ori, caracter_ori)
 );
 
