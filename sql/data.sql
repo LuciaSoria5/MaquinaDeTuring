@@ -1,9 +1,9 @@
+DELETE FROM programa;
+
 INSERT INTO alfabeto (caracter) VALUES
 ('0'),
 ('1'),
-('X')
-
-DELETE FROM programa;
+('X');
 
 -- Debería terminar en qF si el string a es tipo a = w(w**r)
 -- qF no tiene nada, para que la maquina se detenga, eso está bien? 
@@ -25,8 +25,8 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 
 ('q3', '0', 'q3', '0', 'L'),
 ('q3', '1', 'q3', '1', 'L'),
-('q3', 'X', 'X', 'q0', 'R'),
-('q3', 'B', 'B', 'q0', 'R'),
+('q3', 'X', 'q0', 'X', 'R'),
+('q3', 'B', 'q0', 'B', 'R'),
 
 ('q4', '0', 'q4', '0', 'R'),
 ('q4', '1', 'q4', '1', 'R'),
@@ -46,4 +46,4 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 ('qF', '0', '', '', ''),
 ('qF', '1', '', '', ''),
 ('qF', 'X', '', '', ''),
-('qF', 'B', '', '', ''),
+('qF', 'B', '', '', '');
