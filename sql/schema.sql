@@ -26,5 +26,6 @@ CREATE TABLE traza_ejecucion (
     desplazamiento_realizado CHAR(1) NOT NULL,
     cinta_despues TEXT NOT NULL,
     es_estado_final BOOLEAN DEFAULT FALSE,
-    mensaje VARCHAR(255)
+    string_actual VARCHAR(255)
+    maquina_encendida VARCHAR(255)
 );
