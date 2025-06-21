@@ -29,4 +29,6 @@ CREATE TABLE traza_ejecucion (
     cinta_despues TEXT NOT NULL,
     es_estado_final BOOLEAN DEFAULT FALSE,
     string_aceptado BOOLEAN DEFAULT FALSE
+    -- Lo renonbré a string_aceptado jeje
+    -- maquina_encendida VARCHAR(255)
 );
