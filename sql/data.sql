@@ -4,6 +4,8 @@ INSERT INTO alfabeto (caracter) VALUES
 
 DELETE FROM programa;
 
+-- Debería terminar en qF si el string a es tipo a = w(w**r)
+-- qF no tiene nada, para que la maquina se detenga, eso está bien? 
 INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
 ('q0', '0', 'q4', 'X', 'R'),
 ('q0', '1', 'q5', 'X', 'R'),
