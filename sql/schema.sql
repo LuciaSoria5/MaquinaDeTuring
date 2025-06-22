@@ -20,7 +20,7 @@ CREATE TABLE traza_ejecucion (
     caracter_leido CHAR(1) NOT NULL,
     caracter_escrito CHAR(1) NOT NULL,
     desplazamiento_realizado CHAR(1) NOT NULL,
-    cinta_despues TEXT NOT NULL,
+    cinta_despues TEXT NOT NULL,    -- creo que esto no es necesario, porque va a estar en cinta_antes en el siguiente movimiento
     es_estado_final BOOLEAN DEFAULT FALSE,
     string_aceptado BOOLEAN DEFAULT FALSE
 );
