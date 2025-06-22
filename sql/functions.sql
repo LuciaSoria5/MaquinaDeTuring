@@ -113,3 +113,23 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- TODO - Función para obtener descripciones instantáneas
+
+CREATE OR REPLACE FUNCTION obtenerDIs() RETURNS VOID AS $$
+DECLARE
+    movimiento RECORD;
+    di TEXT;
+BEGIN
+
+FOR movimiento IN
+    SELECT * FROM traza_ejecucion
+LOOP
+    di := 
+        left(movimiento.cinta_antes, movimiento.posicion_cabezal - 1)
+        || movimiento.estado_actual
+        || substring(movimiento.cinta_antes from movimiento.posicion_cabezal);
+
+    RAISE NOTICE 'DI: %', di;
+END LOOP;
+
+END;
+$$ LANGUAGE plpgsql;
