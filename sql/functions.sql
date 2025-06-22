@@ -55,16 +55,15 @@ BEGIN
         WHERE estado_ori = estado_actual AND caracter_ori = caracter_leido;
 
         --  Detectar cuando la máquina se apaga
-        IF transicion.estado_nue IS NULL THEN
-            esta_detenida := TRUE;
-            INSERT INTO traza_ejecucion (paso, estado_actual, cinta_antes, posicion_cabezal, caracter_leido, caracter_escrito, desplazamiento_realizado, cinta_despues, es_estado_final, string_aceptado)
-            VALUES (contador_pasos, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, '', '', array_to_string(cinta, ''), FALSE, FALSE);
-            EXIT;
-        END IF;
+        esta_detenida := transicion IS NULL;
 
         -- Grabar el movimiento antes de ejecutarlo 
-        INSERT INTO traza_ejecucion (paso, estado_actual, cinta_antes, posicion_cabezal, caracter_leido, caracter_escrito, desplazamiento_realizado, cinta_despues, es_estado_final, string_aceptado)
-        VALUES (contador_pasos, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, '', FALSE, TRUE); -- cinta_despues se actualiza después
+        INSERT INTO traza_ejecucion
+        VALUES (DEFAULT, contador_pasos, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, '', FALSE, NOT esta_detenida); -- cinta_despues se actualiza después
+
+        IF esta_detenida THEN 
+            EXIT;
+        END IF;
 
         -- Ejecutar la transición
         cinta[posicion_cabezal] := transicion.caracter_nue;
