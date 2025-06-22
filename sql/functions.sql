@@ -7,34 +7,29 @@ DECLARE
     cinta_length INTEGER;
     caracter_leido CHAR(1);
     transicion RECORD;
-    contador_pasos INTEGER := 0;
     esta_detenida BOOLEAN := FALSE;
     blanco CHAR(1) := 'B';
 
 BEGIN
     TRUNCATE TABLE traza_ejecucion;
 
-    -- Vemos si el string es válido
     IF EXISTS (
         SELECT 1 FROM regexp_split_to_table(input_string, '') AS c
         WHERE NOT EXISTS (SELECT 1 FROM alfabeto WHERE caracter = c) AND c != blanco
     ) THEN
-        INSERT INTO traza_ejecucion (paso, estado_actual, cinta_antes, posicion_cabezal, caracter_leido, caracter_escrito, desplazamiento_realizado, cinta_despues, es_estado_final, string_aceptado)
-        VALUES (0, 'ERROR', input_string, 0, '', '', '', '', TRUE, FALSE);
+        INSERT INTO traza_ejecucion (estado_actual, cinta_antes, posicion_cabezal, caracter_leido, caracter_escrito, desplazamiento_realizado, cinta_despues, es_estado_final, string_aceptado)
+        VALUES ('ERROR', input_string, 0, '', '', '', '', TRUE, FALSE);
         RETURN;
     END IF;
 
-    -- Inicialización de la cinta
-    -- Añadimos un Blanco al principio y varios al final
-    cinta := regexp_split_to_array(input_string || RPAD('', 100, blanco), '');
+
+    cinta := regexp_split_to_array(input_string || blanco, '');
     posicion_cabezal := 1;
     estado_actual := 'q0';
 
-    WHILE NOT esta_detenida AND contador_pasos <= 1000 LOOP
-        contador_pasos := contador_pasos + 1;
+    WHILE NOT esta_detenida LOOP
         cinta_length := array_length(cinta, 1);
 
-        -- Ajuste de la cinta
         IF posicion_cabezal < 1 THEN
             cinta := array_prepend(blanco, cinta);
             posicion_cabezal := 1;
@@ -59,7 +54,7 @@ BEGIN
 
         -- Grabar el movimiento antes de ejecutarlo 
         INSERT INTO traza_ejecucion
-        VALUES (DEFAULT, contador_pasos, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, '', FALSE, NOT esta_detenida); -- cinta_despues se actualiza después
+        VALUES (DEFAULT, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, '', FALSE, NOT esta_detenida); -- cinta_despues se actualiza después
 
         IF esta_detenida THEN
             UPDATE traza_ejecucion
@@ -72,7 +67,6 @@ BEGIN
             EXIT;
         END IF;
 
-        -- Ejecutar la transición
         cinta[posicion_cabezal] := transicion.caracter_nue;
         estado_actual := transicion.estado_nue;
 
@@ -82,7 +76,6 @@ BEGIN
             posicion_cabezal := posicion_cabezal - 1;
         END IF;
 
-        -- Actualizar cinta_despues
         UPDATE traza_ejecucion
         SET cinta_despues = array_to_string(cinta, '')
         WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
@@ -102,7 +95,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- TODO - Función para obtener descripciones instantáneas
 CREATE OR REPLACE FUNCTION obtenerDIs() RETURNS TABLE(di TEXT) AS $$
 BEGIN
     RETURN QUERY
