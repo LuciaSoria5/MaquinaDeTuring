@@ -1,4 +1,8 @@
+DROP DATABASE IF EXISTS maquina_turing;
+ 
+CREATE DATABASE maquina_turing;
 
+\c maquina_turing
 
 CREATE TABLE alfabeto (
     caracter CHAR(1) PRIMARY KEY
