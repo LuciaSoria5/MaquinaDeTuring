@@ -26,7 +26,7 @@ BEGIN
 
     -- Inicialización de la cinta
     -- Añadimos un Blanco al principio y varios al final
-    cinta := regexp_split_to_array(blanco || input_string || RPAD('', 100, blanco), '');
+    cinta := regexp_split_to_array(input_string || RPAD('', 100, blanco), '');
     posicion_cabezal := 1;
     estado_actual := 'q0';
 
@@ -53,6 +53,8 @@ BEGIN
         INTO transicion
         FROM programa
         WHERE estado_ori = estado_actual AND caracter_ori = caracter_leido;
+
+        raise notice 'transicion: %', transicion;
 
         --  Detectar cuando la máquina se apaga
         esta_detenida := transicion.estado_nue IS NULL;
@@ -82,6 +84,8 @@ BEGIN
         UPDATE traza_ejecucion
         SET cinta_despues = array_to_string(cinta, '')
         WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
+
+        raise notice 'esta detenida %, contador_pasos %, estado_actual %', esta_detenida, contador_pasos, estado_actual;
     END LOOP;
 
     IF estado_actual = 'qF' THEN
