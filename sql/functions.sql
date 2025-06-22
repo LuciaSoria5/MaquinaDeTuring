@@ -89,3 +89,33 @@ BEGIN
     FROM traza_ejecucion;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION obtenerMovimientos()
+RETURNS TABLE(
+    estado_actual VARCHAR,
+    cinta_antes TEXT,
+    posicion_cabezal INT,
+    caracter_leido CHAR,
+    caracter_escrito CHAR,
+    desplazamiento_realizado CHAR,
+    es_estado_final BOOLEAN,
+    string_aceptado BOOLEAN
+)
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        t.estado_actual,
+        t.cinta_antes,
+        t.posicion_cabezal,
+        t.caracter_leido,
+        t.caracter_escrito,
+        t.desplazamiento_realizado,
+        t.es_estado_final,
+        t.string_aceptado
+    FROM
+        traza_ejecucion t
+    ORDER BY
+        t.id_movimiento;
+END;
+$$ LANGUAGE plpgsql;
