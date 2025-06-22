@@ -40,3 +40,9 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 ('qF', '1', '', '', ''),
 ('qF', 'X', '', '', ''),
 ('qF', 'B', '', '', '');
+
+DELETE FROM alfabeto;
+INSERT INTO alfabeto (caracter) VALUES
+('0'),
+('1'),
+('X');
