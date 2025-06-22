@@ -8,6 +8,8 @@ DECLARE
     caracter_leido CHAR(1);
     transicion RECORD;
     esta_detenida BOOLEAN := FALSE;
+    es_estado_final BOOLEAN := FALSE;
+    string_aceptado BOOLEAN := FALSE;
     blanco CHAR(1) := 'B';
 
 BEGIN
@@ -50,9 +52,19 @@ BEGIN
 
         esta_detenida := transicion.estado_nue IS NULL;
 
-        INSERT INTO traza_ejecucion
-        VALUES (DEFAULT, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, FALSE, NOT esta_detenida);
+        es_estado_final := NOT esta_detenida;
 
+        IF estado_actual = 'qF' THEN
+            es_estado_final := TRUE;
+            string_aceptado := TRUE;
+        ELSIF estado_actual = 'qT' THEN
+            es_estado_final := FALSE;
+            string_aceptado := FALSE;
+        END IF;
+
+        INSERT INTO traza_ejecucion
+        VALUES (DEFAULT, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, es_estado_final, string_aceptado);
+        
         IF estado_actual = 'qF' OR estado_actual = 'qT' THEN
             EXIT;
         END IF;
@@ -67,17 +79,6 @@ BEGIN
         END IF;
         
     END LOOP;
-
-    IF estado_actual = 'qF' THEN
-        UPDATE traza_ejecucion
-        SET es_estado_final = TRUE, string_aceptado = TRUE
-        WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
-    ELSIF estado_actual = 'qT' THEN
-        UPDATE traza_ejecucion
-        SET es_estado_final = FALSE, string_aceptado = FALSE
-        WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
-    END IF;
-
 END;
 $$ LANGUAGE plpgsql;
 
