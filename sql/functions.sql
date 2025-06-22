@@ -30,7 +30,7 @@ BEGIN
     posicion_cabezal := 1;
     estado_actual := 'q0';
 
-    LOOP
+    WHILE NOT esta_detenida AND contador_pasos <= 1000 AND estado_actual <> 'qF' AND estado_actual <> 'qT' LOOP
         contador_pasos := contador_pasos + 1;
         cinta_length := array_length(cinta, 1);
 
@@ -55,13 +55,16 @@ BEGIN
         WHERE estado_ori = estado_actual AND caracter_ori = caracter_leido;
 
         --  Detectar cuando la máquina se apaga
-        esta_detenida := transicion IS NULL;
+        esta_detenida := transicion.estado_nue IS NULL;
 
         -- Grabar el movimiento antes de ejecutarlo 
         INSERT INTO traza_ejecucion
         VALUES (DEFAULT, contador_pasos, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, '', FALSE, NOT esta_detenida); -- cinta_despues se actualiza después
 
-        IF esta_detenida THEN 
+        IF esta_detenida THEN
+            UPDATE traza_ejecucion
+            SET cinta_despues = array_to_string(cinta, '')
+            WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
             EXIT;
         END IF;
 
@@ -79,30 +82,13 @@ BEGIN
         UPDATE traza_ejecucion
         SET cinta_despues = array_to_string(cinta, '')
         WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
-
-        -- Condición de parada
-        IF contador_pasos > 1000 THEN
-            esta_detenida := TRUE;
-            INSERT INTO traza_ejecucion
-            VALUES (DEFAULT, contador_pasos, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, array_to_string(cinta, ''), FALSE, FALSE);
-            EXIT;
-        END IF;
-
-        IF estado_actual = 'qF' THEN
-            esta_detenida := TRUE;
-            EXIT;
-        ELSIF estado_actual = 'qT' THEN
-            esta_detenida := TRUE;
-            EXIT;
-        END IF;
-
     END LOOP;
 
-    IF esta_detenida AND estado_actual = 'qF' THEN
+    IF estado_actual = 'qF' THEN
         UPDATE traza_ejecucion
         SET es_estado_final = TRUE, string_aceptado = TRUE
         WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
-    ELSIF esta_detenida AND estado_actual = 'qT' THEN
+    ELSIF estado_actual = 'qT' THEN
         UPDATE traza_ejecucion
         SET es_estado_final = FALSE, string_aceptado = FALSE
         WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
