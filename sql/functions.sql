@@ -83,8 +83,8 @@ BEGIN
         -- Condición de parada
         IF contador_pasos > 1000 THEN
             esta_detenida := TRUE;
-            INSERT INTO traza_ejecucion (paso, estado_actual, cinta_antes, posicion_cabezal, caracter_leido, caracter_escrito, desplazamiento_realizado, cinta_despues, es_estado_final, string_aceptado)
-            VALUES (contador_pasos, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, array_to_string(cinta, ''), FALSE, FALSE);
+            INSERT INTO traza_ejecucion
+            VALUES (DEFAULT, contador_pasos, estado_actual, array_to_string(cinta, ''), posicion_cabezal, caracter_leido, transicion.caracter_nue, transicion.desplazamiento, array_to_string(cinta, ''), FALSE, FALSE);
             EXIT;
         END IF;
 
