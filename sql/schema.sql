@@ -28,3 +28,5 @@ CREATE TABLE traza_ejecucion (
     es_estado_final BOOLEAN DEFAULT FALSE,
     string_aceptado BOOLEAN DEFAULT FALSE
 );
+
+\c postgres
