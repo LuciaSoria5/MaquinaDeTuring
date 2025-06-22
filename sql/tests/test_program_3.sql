@@ -13,7 +13,7 @@ INSERT INTO pruebas_temp (expresion, acepta) VALUES
 ('a>b?c:d', TRUE),
 ('a<b?b>c?a:c:d', TRUE),
 ('a!b?c<d?a:b:c', TRUE),
-('a?b?c:d:e', TRUE),
+('a?b?c:d:a', TRUE),
 
 -- Expresiones inválidas
 ('a?b', FALSE),                -- falta el :
