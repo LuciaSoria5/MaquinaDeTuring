@@ -1,0 +1,7 @@
+-- ternarios: condicion ? valor_si_verdadero : valor_si_falso
+-- valor_si_verdadero puede ser una expresion u otro ternario
+-- valor_si_falso puede ser una expresion u otro ternario
+-- la condicion consiste en una variable o una comparacion que se evalua a verdadero o falso
+-- una comparacion consiste en dos o mas variables con uno o mas operadores de comparacion
+-- los operadores de comparacion son: ==, !=, <, >, <=, >=
+-- las variables pueden ser: a, b, c, d
