@@ -1,5 +1,4 @@
 -- expresiones matematicas basicas con 4 variables: a, b, c, d; parentesis: (, ); y operadores: +, -, *, /, ^
--- ('a' + 'b' + 'c'+ 'd' + '()')('')
 -- q0: busca una variable o un (. si es (, lo marca con X
 -- q1: busca un operador o el fin de la expresion
 -- q2: busca el parentesis de cierre y lo marco con Y
@@ -11,6 +10,10 @@
 -- no permito dos parentesis seguidos
 -- no permito un parentesis de cierre sin uno de apertura
 -- no permito un parentesis de apertura sin uno de cierre
+
+-- E → V | (E) | E O E
+-- V → a | b | c | d
+-- O → + | - | * | / | ^
 
 DELETE FROM programa;
 
