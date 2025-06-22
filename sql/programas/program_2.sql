@@ -1,4 +1,5 @@
--- expresiones matematicas basicas con 4 variables: a, b, c, d, (, ), +, -, *, /, ^ 
+-- expresiones matematicas basicas con 4 variables: a, b, c, d; parentesis: (, ); y operadores: +, -, *, /, ^
+-- ('a' + 'b' + 'c'+ 'd' + '()')('')
 -- q0: busca una variable o un (. si es (, lo marca con X
 -- q1: busca un operador o el fin de la expresion
 -- q2: busca el parentesis de cierre y lo marco con Y
@@ -30,7 +31,7 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 ('q0', '*', 'qT', '*', 'R'),
 ('q0', '/', 'qT', '/', 'R'),
 ('q0', '^', 'qT', '^', 'R'),
-
+('q0', 'B', 'qT', 'B', 'R'),
 
 -- permitir paréntesis cerrados procesados
 ('q0', 'X', 'q0', 'X', 'R'),
@@ -45,6 +46,7 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 -- permite parentesis procesados
 ('q1', 'X', 'qT', 'X', 'R'),    -- no puede haber aX porque es a( y no es valido
 ('q1', 'Y', 'q1', 'Y', 'R'),
+('q1', ')', 'qT', ')', 'R'),
 
 -- fin de expresion
 ('q1', 'B', 'qF', 'B', 'R'),
