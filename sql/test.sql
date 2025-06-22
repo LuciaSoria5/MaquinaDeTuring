@@ -1,4 +1,4 @@
-SELECT simuladorMT('1001');
+SELECT simuladorMT('(a+b)');
 
 SELECT * FROM traza_ejecucion;
 
