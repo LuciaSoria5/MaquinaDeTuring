@@ -1,7 +1,5 @@
 SELECT '------------- Ejecutando Tests de Programa 1: w = a(a**r) -------------' AS test_info;
 
-\i sql/programas/programa_1.sql
-
 SELECT '--- Ejecutando Test 1: Cadena "110011" ---' AS test_1;
 SELECT simuladorMT('110011');
 
@@ -21,5 +19,3 @@ ORDER BY id_movimiento;
 
 SELECT 'Resultado final del Test 2 - String aceptado: ' || string_aceptado FROM traza_ejecucion ORDER BY id_movimiento DESC LIMIT 1;
 SELECT * FROM obtenerDIs();
-
-\c postgres
