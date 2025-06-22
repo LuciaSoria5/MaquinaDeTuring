@@ -1,3 +1,11 @@
+-- expresiones ternarias basicas con 4 variables: a, b, c, d; y operadores: >, <, =, !
+-- q0: busca una variable
+-- q1: busca un operador o un ?. si lo encuentra, lo marca con X
+-- q2: busca el else (:) y lo marca con Y
+-- q3: retrocede al operador marcado con X
+-- qT: rechaza
+-- qF: acepta
+
 DELETE FROM programa;
 
 INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
@@ -48,16 +56,16 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 
 ('q2', '?', 'q2', '?', 'R'), -- permite anidación dentro
 
-('q2', 'X', 'q2', 'X', 'R'),
+('q2', 'X', 'q2', 'X', 'R'), -- ignora lo que fue procesado
 ('q2', 'Y', 'q2', 'Y', 'R'),
-
--- marca : con Y y retrocede
-('q2', ':', 'q3', 'Y', 'L'),
 
 -- si llega fin sin : rechaza
 ('q2', 'B', 'qT', 'B', 'R'),
 
--- q3: retrocede hasta ?
+-- si encuentra :, los marca con Y y retrocede
+('q2', ':', 'q3', 'Y', 'L'),
+
+-- q3: retrocede hasta ? marcado con X
 ('q3', 'a', 'q3', 'a', 'L'),
 ('q3', 'b', 'q3', 'b', 'L'),
 ('q3', 'c', 'q3', 'c', 'L'),
@@ -72,7 +80,7 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 ('q3', ':', 'q3', ':', 'L'),
 ('q3', 'Y', 'q3', 'Y', 'L'),
 
-('q3', 'X', 'q0', 'X', 'R'),
+('q3', 'X', 'q0', 'X', 'R'),    -- reanuda la evaluación de la expresión
 
 -- aceptación
 ('qF', 'B', '', '', 'R'),
