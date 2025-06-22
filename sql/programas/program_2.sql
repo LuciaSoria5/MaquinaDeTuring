@@ -33,14 +33,26 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 ('q3', 'Y', 'q5', 'Y', 'L'),
 ('q3', 'B', 'q5', 'B', 'L'),
 
-('q5', '0', 'qT', '0', 'L'),
-('q4', '1', 'q6', 'Y', 'R'),
+('q5', '0', 'qT', '0', 'R'),
+('q5', '1', 'q6', 'Y', 'L'),
 
 ('q6', '0', 'q6', '0', 'L'),
 ('q6', '1', 'q6', '1', 'L'),
 ('q6', 'X', 'q6', 'X', 'L'),
 ('q6', 'Y', 'q6', 'Y', 'L'),
-('q6', 'I', 'q1', 'I', 'R');
+('q6', 'I', 'q1', 'I', 'R'),
+
+('qT', '0', 'qT', '0', 'R'),
+('qT', '1', 'qT', '1', 'R'),
+('qT', 'X', 'qT', 'X', 'R'),
+('qT', 'Y', 'qT', 'Y', 'R'),
+('qT', 'B', 'qT', 'B', 'R'),
+
+('qF', '0', '', '', ''),
+('qF', '1', '', '', ''),
+('qF', 'X', '', '', ''),
+('qF', 'Y', '', '', ''),
+('qF', 'B', '', '', '');
 
 DELETE FROM alfabeto;
 INSERT INTO alfabeto (caracter) VALUES
