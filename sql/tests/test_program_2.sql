@@ -6,7 +6,7 @@ CREATE TEMP TABLE pruebas_temp (
     acepta BOOLEAN
 );
 
--- Tabla de pruebas
+-- Casos de pruebas
 INSERT INTO pruebas_temp (expresion, acepta) VALUES
 
 -- Expresiones válidas
@@ -23,53 +23,22 @@ INSERT INTO pruebas_temp (expresion, acepta) VALUES
 ('((a+b)*c)^d', true),
 
 -- Expresiones inválidas
-('+a', false),
-('a+', false),
-('a b', false),
-('a++b', false),
-('(a', false),
-('a)', false),
-('((a+b)', false),
-('a+(b', false),
-('a+(b+c))', false),
-('a+(+b)', false),
-('(a)+(b)+(c', false),
-('a+(b)(c)', false),
-('a(b)', false),
-('a+(b+c)(d)', false);
+('+a', false),      -- empieza con +
+('a+', false),      -- le falta una variable al final
+('a b', false),     -- le falta el operador
+('a++b', false),    -- doble operador
+('(a', false),      -- falta parentesis de cierre
+('a)', false),      -- falta parentesis de apertura
+('((a+b)', false),  -- falta parentesis de cierre
+('a+(b', false),    -- falta parentesis de cierre
+('a+(b+c))', false),    -- falta parentesis de apertura
+('a+(+b)', false),  -- falta un operando
+('(a)+(b)+(c', false), -- falta parentesis de cierre
+('a+(b)(c)', false), -- falta un operando
+('a(b)', false),    -- falta un operando
+('a+(b+c)(d)', false);  -- falta un operando
 
 -- Testing
-DO $$
-DECLARE
-    expr TEXT;
-    esperado BOOLEAN;
-    resultado RECORD;
-    di RECORD;
-BEGIN
-    FOR expr, esperado IN SELECT expresion, acepta FROM pruebas_temp LOOP
-        RAISE NOTICE '------------------------';
-        RAISE NOTICE 'Probando expresión: % (esperado: %)', expr, esperado;
-
-        PERFORM simuladorMT(expr);
-
-        SELECT string_aceptado INTO resultado
-        FROM traza_ejecucion
-        WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
-
-        RAISE NOTICE 'Resultado: aceptado = %,  esperado = %',
-            resultado.string_aceptado, esperado;
-
-        IF resultado.string_aceptado <> esperado THEN
-            RAISE EXCEPTION 'Error: Resultado inesperado para expresión "%". Esperado: % pero obtenido %',
-                    expr, esperado, resultado.string_aceptado;
-        END IF;
-
-        RAISE NOTICE 'Movimientos:';
-        FOR di IN SELECT * FROM obtenerDIs() LOOP
-            RAISE NOTICE 'DI: %', di.di;
-        END LOOP;
-
-    END LOOP;
-END $$;
+CALL test_maquina_turing();
 
 DROP TABLE IF EXISTS pruebas_temp;

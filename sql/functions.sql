@@ -120,3 +120,37 @@ BEGIN
         t.id_movimiento;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE test_maquina_turing() AS $$
+DECLARE
+    expr TEXT;
+    esperado BOOLEAN;
+    resultado RECORD;
+    di RECORD;
+BEGIN
+    FOR expr, esperado IN SELECT expresion, acepta FROM pruebas_temp LOOP
+        RAISE NOTICE '------------------------';
+        RAISE NOTICE 'Probando expresión: % (esperado: %)', expr, esperado;
+
+        PERFORM simuladorMT(expr);
+
+        SELECT string_aceptado INTO resultado
+        FROM traza_ejecucion
+        WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
+
+        RAISE NOTICE 'Resultado: aceptado = %,  esperado = %',
+            resultado.string_aceptado, esperado;
+
+        IF resultado.string_aceptado <> esperado THEN
+            RAISE EXCEPTION 'Error: Resultado inesperado para expresión "%". Esperado: % pero obtenido %',
+                    expr, esperado, resultado.string_aceptado;
+        END IF;
+
+        RAISE NOTICE 'Movimientos:';
+        FOR di IN SELECT * FROM obtenerDIs() LOOP
+            RAISE NOTICE 'DI: %', di.di;
+        END LOOP;
+
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql;
