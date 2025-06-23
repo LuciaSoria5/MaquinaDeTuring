@@ -1,3 +1,20 @@
+-- Suma dos valores binarios.
+-- Restricciones: 
+--  * Los valores deben tener la misma cantidad de dígitos.
+--  * Cada valor debe terminar con el dígito '#'
+-- Ejemlplo: 10#10#
+
+-- Estados:
+-- q0: inicia el proceso de la máquina.
+-- [q0, acarreo] y [q1, acarreo]: buscan el sumando 1.
+-- [q2, acarreo, sumando1, sumando2], [q3, acarreo, sumando1, sumando2], [q3.5, acarreo, sumando1, sumando2]: buscan el sumando 2.
+-- [q4, acarreo, sumando1, sumando2]: escribe el resultado de la suma.
+-- [q5, acarreo]: regresa al inicio del string
+-- [q6, acarreo], [q7, acarreo]: escriben el acarreo luego de sumar todos los dígitos.
+-- q8, q9: completan el resultado escribiendo 0s sobre los #s residuales.
+-- qT: rechaza
+-- qF: acepta
+
 DELETE FROM programa;
 
 INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
@@ -72,7 +89,7 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 ('[q3,1,1]', '#', '[q3.5,1,1]', '#', 'L'),
 ('[q3,1,1]', 'B', '[q3,1,1]', 'B', 'L'),
 
--- Obtengo sumando 2 (q3)
+-- Obtengo sumando 2 (q3.3)
 ('[q3.5,0,0]', '0', '[q4,0,0,0]', '#', 'R'),
 ('[q3.5,0,0]', '1', '[q4,0,0,1]', '#', 'R'),
 ('[q3.5,0,0]', '#', '[q3.5,0,0]', '#', 'L'),
@@ -173,7 +190,7 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 ('q8', '#', 'q8', '#', 'L'),
 ('q8', 'B', 'q9', 'B', 'R'),
 
--- Completo el resultado: busco el números
+-- Completo el resultado con 0s
 ('q9', '0', 'qF', '0', 'L'),
 ('q9', '1', 'qF', '1', 'L'),
 ('q9', '#', 'q9', '0', 'R'),

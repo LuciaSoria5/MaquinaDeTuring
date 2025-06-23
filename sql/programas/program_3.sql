@@ -1,4 +1,6 @@
--- expresiones ternarias basicas con 4 variables: a, b, c, d; y operadores: >, <, =, !
+-- Expresiones ternarias basicas con 4 variables: a, b, c, d; y operadores: >, <, =, !
+
+-- Estados:
 -- q0: busca una variable
 -- q1: busca un operador o un ?. si lo encuentra, lo marca con X
 -- q2: busca el else (:) y lo marca con Y

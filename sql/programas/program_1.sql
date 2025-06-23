@@ -1,3 +1,15 @@
+-- Strings de la forma w = a(a^)r)
+
+-- Estados:
+-- q0: captura el primer valor. Si el mismo es 0, invoca al estado q4. Si es 1, invoca al estado q5.
+-- q1: captura el segundo valor. Si es 0, invoca a q3.
+-- q2: captura el segundo valor. Si es 1, invoca a q3.
+-- q3: regresa al principio del string.
+-- q4: avanza hasta al final. Luego invoca a q1.
+-- q5: avanza hasta al final. Luego invoca a q2.
+-- qT: rechaza
+-- qF: acepta
+
 DELETE FROM programa;
 
 INSERT INTO programa VALUES

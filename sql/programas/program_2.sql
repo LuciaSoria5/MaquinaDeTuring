@@ -1,4 +1,6 @@
--- expresiones matematicas basicas con 4 variables: a, b, c, d; parentesis: (, ); y operadores: +, -, *, /, ^
+-- Expresiones matematicas basicas con 4 variables: a, b, c, d; parentesis: (, ); y operadores: +, -, *, /, ^
+
+-- Estados:
 -- q0: busca una variable o un (. si es (, lo marca con X
 -- q1: busca un operador o el fin de la expresion
 -- q2: busca el parentesis de cierre y lo marco con Y
