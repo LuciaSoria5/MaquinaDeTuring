@@ -6,9 +6,17 @@
 -- qT: rechaza
 -- qF: acepta
 
+-- S → E
+-- T → C | C '?' T ':' T
+-- C → V OC
+-- OC → O V OC | ε
+-- V → 'a' | 'b' | 'c' | 'd'
+-- O → '=' | '!' | '<' | '>'
+
+
 DELETE FROM programa;
 
-INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
+INSERT INTO programa VALUES
 
 -- q0: busca variable para condición
 ('q0', 'a', 'q1', 'a', 'R'),
@@ -114,9 +122,7 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 
 DELETE FROM alfabeto;
 
-INSERT INTO alfabeto (caracter) VALUES
+INSERT INTO alfabeto VALUES
 ('a'), ('b'), ('c'), ('d'),
 ('='), ('!'), ('<'), ('>'),
-('?'), (':'),
-('X'),  -- marca '?'
-('Y');  -- marca ':'
+('?'), (':');

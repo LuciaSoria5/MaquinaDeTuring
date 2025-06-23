@@ -1,5 +1,3 @@
-ROLLBACK;
-
 DROP TABLE IF EXISTS pruebas_temp;
 CREATE TEMP TABLE pruebas_temp (
     expresion TEXT,
@@ -7,7 +5,7 @@ CREATE TEMP TABLE pruebas_temp (
 );
 
 -- Casos de pruebas
-INSERT INTO pruebas_temp (expresion, acepta) VALUES
+INSERT INTO pruebas_temp VALUES
 
 -- Expresiones válidas
 ('a', true),
@@ -39,6 +37,6 @@ INSERT INTO pruebas_temp (expresion, acepta) VALUES
 ('a+(b+c)(d)', false);  -- falta un operando
 
 -- Testing
-CALL test_maquina_turing();
+CALL testMT();
 
 DROP TABLE IF EXISTS pruebas_temp;

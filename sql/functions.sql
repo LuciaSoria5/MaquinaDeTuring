@@ -30,28 +30,24 @@ BEGIN
     estado_actual := 'q0';
 
     WHILE NOT esta_detenida LOOP
-        cinta_length := array_length(cinta, 1);
 
         IF posicion_cabezal < 1 THEN
             cinta := array_prepend(blanco, cinta);
             posicion_cabezal := 1;
-            cinta_length := cinta_length + 1;
         END IF;
 
         IF posicion_cabezal > cinta_length THEN
             cinta := array_append(cinta, blanco);
-            cinta_length := cinta_length + 1;
         END IF;
 
+        cinta_length := array_length(cinta, 1);
         caracter_leido := cinta[posicion_cabezal];
 
-        SELECT estado_nue, caracter_nue, desplazamiento
-        INTO transicion
+        SELECT estado_nue, caracter_nue, desplazamiento INTO transicion
         FROM programa
         WHERE estado_ori = estado_actual AND caracter_ori = caracter_leido;
 
         esta_detenida := transicion.estado_nue IS NULL;
-
         es_estado_final := NOT esta_detenida;
 
         IF estado_actual = 'qF' THEN
@@ -86,7 +82,11 @@ CREATE OR REPLACE FUNCTION obtenerDIs() RETURNS TABLE(di TEXT) AS $$
 BEGIN
     RETURN QUERY
     SELECT 
-        left(cinta_antes, posicion_cabezal - 1) || '{' || estado_actual || '}' || substring(cinta_antes from posicion_cabezal)
+        regexp_replace(
+            left(cinta_antes, posicion_cabezal - 1) || '{' || estado_actual || '}' || substring(cinta_antes from posicion_cabezal),
+            'B+$',
+            ''
+        )
     FROM traza_ejecucion;
 END;
 $$ LANGUAGE plpgsql;
@@ -121,7 +121,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE PROCEDURE test_maquina_turing() AS $$
+CREATE OR REPLACE PROCEDURE testMT() AS $$
 DECLARE
     expr TEXT;
     esperado BOOLEAN;
