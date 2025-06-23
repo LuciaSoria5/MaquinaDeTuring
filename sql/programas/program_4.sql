@@ -159,13 +159,25 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 -- Escribo el acarreo (q7)
 ('[q7,0]', '0', 'qT', '0', 'R'),
 ('[q7,0]', '1', 'qT', '1', 'R'),
-('[q7,0]', '#', 'qF', '0', 'R'),
-('[q7,0]', 'B', 'qF', '0', 'R'),
+('[q7,0]', '#', 'q8', '0', 'R'),
+('[q7,0]', 'B', 'q8', '0', 'R'),
 
 ('[q7,1]', '0', 'qT', '0', 'R'),
 ('[q7,1]', '1', 'qT', '1', 'R'),
-('[q7,1]', '#', 'qF', '1', 'R'),
-('[q7,1]', 'B', 'qF', '1', 'R'),
+('[q7,1]', '#', 'q8', '1', 'R'),
+('[q7,1]', 'B', 'q8', '1', 'R'),
+
+-- Completo el resultado: voy adelante de todo.
+('q8', '0', 'q8', '0', 'L'),
+('q8', '1', 'q8', '1', 'L'),
+('q8', '#', 'q8', '#', 'L'),
+('q8', 'B', 'q9', 'B', 'R'),
+
+-- Completo el resultado: busco el números
+('q9', '0', 'qF', '0', 'L'),
+('q9', '1', 'qF', '1', 'L'),
+('q9', '#', 'q9', '0', 'R'),
+('q9', 'B', 'q9', 'B', 'R'),
 
 --  Finales
 ('qT', '0', 'qT', '#', 'R'),
