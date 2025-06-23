@@ -155,29 +155,32 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE PROCEDURE test_suma_binarios() AS $$
+CREATE OR REPLACE PROCEDURE testMTB() AS $$
 DECLARE
     expr TEXT;
-    esperado BOOLEAN;
+    esperado TEXT;
     resultado RECORD;
+    final TEXT;
     di RECORD;
 BEGIN
-    FOR expr, esperado IN SELECT expresion, acepta FROM pruebas_temp LOOP
+    FOR expr, esperado IN SELECT expresion, suma FROM pruebas_temp LOOP
         RAISE NOTICE '------------------------';
         RAISE NOTICE 'Resolviendo suma: % (resultado esperado: %)', expr, esperado;
 
         PERFORM simuladorMT(expr);
 
-        SELECT string_aceptado INTO resultado
+        SELECT cinta_antes INTO resultado
         FROM traza_ejecucion
         WHERE id_movimiento = (SELECT MAX(id_movimiento) FROM traza_ejecucion);
 
-        RAISE NOTICE 'Resultado: aceptado = %,  esperado = %',
-            resultado.string_aceptado, esperado;
+        final := SUBSTRING(resultado.cinta_antes FROM 2 FOR LENGTH(resultado.cinta_antes) - 2);
 
-        IF resultado.string_aceptado <> esperado THEN
+        RAISE NOTICE 'Resultado: actual = %,  esperado = %',
+            final, esperado;
+
+        IF final <> esperado THEN
             RAISE EXCEPTION 'Error: Resultado inesperado para suma "%". Esperado: % pero obtenido %',
-                    expr, esperado, resultado.string_aceptado;
+                    expr, esperado, final;
         END IF;
 
         RAISE NOTICE 'Movimientos:';
