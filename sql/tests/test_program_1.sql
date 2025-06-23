@@ -1,13 +1,23 @@
-SELECT '------------- Ejecutando Tests de Programa 1: w = a(a**r) -------------' AS test_info;
+DROP TABLE IF EXISTS pruebas_temp;
+CREATE TEMP TABLE pruebas_temp (
+    expresion TEXT,
+    acepta BOOLEAN
+);
 
-SELECT '--- Ejecutando Test 1: Cadena "110011" ---' AS test_1;
-SELECT simuladorMT('110011');
-SELECT * FROM obtenerMovimientos();
-SELECT 'Resultado final del Test 1 - String aceptado: ' || string_aceptado FROM traza_ejecucion ORDER BY id_movimiento DESC LIMIT 1;
-SELECT * FROM obtenerDIs();
+-- Casos de pruebas
+INSERT INTO pruebas_temp VALUES
 
-SELECT '--- Ejecutando Test 2: Cadena "1100001" ---' AS test_2;
-SELECT simuladorMT('1100001');
-SELECT * FROM obtenerMovimientos();
-SELECT 'Resultado final del Test 2 - String aceptado: ' || string_aceptado FROM traza_ejecucion ORDER BY id_movimiento DESC LIMIT 1;
-SELECT * FROM obtenerDIs();
+-- Expresiones válidas
+('110011', true),
+('00', true),
+('010010', true),
+
+-- Expresiones inválidas
+('100', false),
+('010', false),
+('01101', false);
+
+-- Testing
+CALL testMT();
+
+DROP TABLE IF EXISTS pruebas_temp;
