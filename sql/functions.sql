@@ -1,3 +1,4 @@
+-- Simulador de Máquinas de Turing
 CREATE OR REPLACE FUNCTION simuladorMT(input_string TEXT)
 RETURNS VOID AS $$
 DECLARE
@@ -78,6 +79,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Función para obtener las descripciones instantáneas de una Máquina de Turing ya ejecutada.
 CREATE OR REPLACE FUNCTION obtenerDIs() RETURNS TABLE(di TEXT) AS $$
 BEGIN
     RETURN QUERY
@@ -91,6 +94,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Función para obtener los movimientos realizados por una Máquina de Turing ya ejecutada.
 CREATE OR REPLACE FUNCTION obtenerMovimientos()
 RETURNS TABLE(
     estado_actual VARCHAR,
@@ -121,6 +126,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Testeo de Máquinas de Turing.
 CREATE OR REPLACE PROCEDURE testMT() AS $$
 DECLARE
     expr TEXT;
@@ -155,6 +162,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Testeo de la Máquina de Turing que suma binarios.
 CREATE OR REPLACE PROCEDURE testMTB() AS $$
 DECLARE
     expr TEXT;
