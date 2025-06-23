@@ -30,28 +30,24 @@ BEGIN
     estado_actual := 'q0';
 
     WHILE NOT esta_detenida LOOP
-        cinta_length := array_length(cinta, 1);
 
         IF posicion_cabezal < 1 THEN
             cinta := array_prepend(blanco, cinta);
             posicion_cabezal := 1;
-            cinta_length := cinta_length + 1;
         END IF;
 
         IF posicion_cabezal > cinta_length THEN
             cinta := array_append(cinta, blanco);
-            cinta_length := cinta_length + 1;
         END IF;
 
+        cinta_length := array_length(cinta, 1);
         caracter_leido := cinta[posicion_cabezal];
 
-        SELECT estado_nue, caracter_nue, desplazamiento
-        INTO transicion
+        SELECT estado_nue, caracter_nue, desplazamiento INTO transicion
         FROM programa
         WHERE estado_ori = estado_actual AND caracter_ori = caracter_leido;
 
         esta_detenida := transicion.estado_nue IS NULL;
-
         es_estado_final := NOT esta_detenida;
 
         IF estado_actual = 'qF' THEN
