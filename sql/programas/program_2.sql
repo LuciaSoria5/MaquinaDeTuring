@@ -12,12 +12,12 @@
 -- no permito un parentesis de apertura sin uno de cierre
 
 -- E → V | (E) | E O E
--- V → a | b | c | d
--- O → + | - | * | / | ^
+-- V → 'a' | 'b' | 'c' | 'd'
+-- O → '+' | '-' | '*' | '/' | '^'
 
 DELETE FROM programa;
 
-INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
+INSERT INTO programa VALUES
 
 -- q0: espera variable o (
 ('q0', 'a', 'q1', 'a', 'R'),
@@ -123,15 +123,7 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 ('qT', 'B', '', '', 'R');
 
 DELETE FROM alfabeto;
-INSERT INTO alfabeto (caracter) VALUES
-('a'),
-('b'),
-('c'),
-('d'),
-('('),
-(')'),
-('+'),
-('-'),
-('*'),
-('/'),
-('^');
+INSERT INTO alfabeto VALUES
+('a'), ('b'), ('c'), ('d'),
+('('), (')'), ('+'), ('-'),
+('*'), ('/'), ('^');
