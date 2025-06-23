@@ -82,7 +82,11 @@ CREATE OR REPLACE FUNCTION obtenerDIs() RETURNS TABLE(di TEXT) AS $$
 BEGIN
     RETURN QUERY
     SELECT 
-        left(cinta_antes, posicion_cabezal - 1) || '{' || estado_actual || '}' || substring(cinta_antes from posicion_cabezal)
+        regexp_replace(
+            left(cinta_antes, posicion_cabezal - 1) || '{' || estado_actual || '}' || substring(cinta_antes from posicion_cabezal),
+            'B+$',
+            ''
+        )
     FROM traza_ejecucion;
 END;
 $$ LANGUAGE plpgsql;
