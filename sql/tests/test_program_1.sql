@@ -1,5 +1,3 @@
--- debe ser uno por programa
-
 SELECT '------------- Ejecutando Tests de Programa 1: w = a(a**r) -------------' AS test_info;
 
 SELECT '--- Ejecutando Test 1: Cadena "110011" ---' AS test_1;
