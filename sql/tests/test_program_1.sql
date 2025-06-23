@@ -11,11 +11,13 @@ INSERT INTO pruebas_temp VALUES
 ('110011', true),
 ('00', true),
 ('010010', true),
+('011110', true),
 
 -- Expresiones inválidas
 ('100', false),
 ('010', false),
 ('01101', false);
+('01011', false);
 
 -- Testing
 CALL testMT();
