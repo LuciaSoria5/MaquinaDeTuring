@@ -37,6 +37,6 @@ INSERT INTO pruebas_temp VALUES
 ('a+(b+c)(d)', false);  -- falta un operando
 
 -- Testing
-CALL test_maquina_turing();
+CALL testMT();
 
 DROP TABLE IF EXISTS pruebas_temp;

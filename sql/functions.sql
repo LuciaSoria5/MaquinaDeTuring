@@ -121,7 +121,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE PROCEDURE test_maquina_turing() AS $$
+CREATE OR REPLACE PROCEDURE testMT() AS $$
 DECLARE
     expr TEXT;
     esperado BOOLEAN;
