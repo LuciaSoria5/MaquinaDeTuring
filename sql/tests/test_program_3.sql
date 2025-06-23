@@ -1,4 +1,3 @@
--- Crear tabla temporal con casos de prueba
 DROP TABLE IF EXISTS pruebas_temp;
 CREATE TEMP TABLE pruebas_temp (
     expresion TEXT,
@@ -6,7 +5,7 @@ CREATE TEMP TABLE pruebas_temp (
 );
 
 -- Casos de prueba
-INSERT INTO pruebas_temp (expresion, acepta) VALUES
+INSERT INTO pruebas_temp VALUES
 
 -- Expresiones válidas
 ('a?b:c', TRUE),

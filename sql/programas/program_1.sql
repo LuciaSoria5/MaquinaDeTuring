@@ -1,6 +1,6 @@
 DELETE FROM programa;
 
-INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
+INSERT INTO programa VALUES
 ('q0', '0', 'q4', 'X', 'R'),
 ('q0', '1', 'q5', 'X', 'R'),
 ('q0', 'X', 'q0', 'X', 'R'),
@@ -42,7 +42,7 @@ INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, despla
 ('qF', 'B', '', '', '');
 
 DELETE FROM alfabeto;
-INSERT INTO alfabeto (caracter) VALUES
+INSERT INTO alfabeto VALUES
 ('0'),
 ('1'),
 ('X');
